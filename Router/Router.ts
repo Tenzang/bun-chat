@@ -1,3 +1,5 @@
+import { file } from "bun";
+
 type Endpoints = Map<string, Response>;
 
 interface Routes {
@@ -11,6 +13,8 @@ interface Routes {
 export class Router {
   routes: Routes;
   #notFound: Response;
+  #static: string;
+  static #staticExt = new Set(["js", "html"]);
 
   constructor() {
     this.routes = {
@@ -36,10 +40,25 @@ export class Router {
 
   response({ method, url }: Request) {
     const { pathname } = new URL(url);
+    const [fileName, ext] = pathname.split("/").pop().split(".");
+
+    if (ext && Router.#staticExt.has(ext)) {
+      const resource = file(`${this.#static}${pathname}`);
+
+      // TODO: properly check if file exists before serving
+      if (resource) return new Response(resource);
+
+      return new Response("Resource not found", { status: 404 });
+    }
+
     const registeredPaths = this.routes[method];
 
     if (registeredPaths.has(pathname)) return registeredPaths.get(pathname);
 
     return this.#notFound;
+  }
+
+  static(dirPath: string) {
+    this.#static = dirPath;
   }
 }
