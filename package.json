@@ -2,7 +2,8 @@
   "version": "0.1",
   "name": "bun-chat",
   "scripts": {
-    "start": "bun main.ts"
+    "start": "bun main.ts",
+    "test": "bun wiptest"
   },
   "dependencies": {}
 }
