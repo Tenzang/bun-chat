@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, beforeAll } from "bun:test";
-import { Router } from "./Router";
+import { Router, Method } from "./Router";
 
 const baseURL = "http://test.com/";
 
@@ -23,13 +23,16 @@ describe("Router", () => {
   describe(".route()", () => {
     it("throws error if invalid HTTP method provided.", () => {
       expect(() => {
+        // @ts-ignore
         router.route("TEST", endpoints.index, () => {});
       }).toThrow();
     });
 
     const mockResponse = new Response("test");
 
-    ["GET", "POST", "PATCH", "PUT", "PATCH", "DELETE"].forEach((method) => {
+    const methods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as Method[];
+
+    methods.forEach((method) => {
       it(`prepares new ${method} endpoint.`, () => {
         router.route(method, endpoints.index, () => "test");
 
