@@ -1,5 +1,7 @@
 type Endpoints = Map<string, Response>;
 
+export type Method = keyof Routes;
+
 interface Routes {
   GET: Endpoints;
   POST: Endpoints;
@@ -22,7 +24,7 @@ export class Router {
     };
   }
 
-  route(method: string, endpoint: string, callback: () => any) {
+  route(method: Method, endpoint: string, callback: () => any) {
     try {
       this.routes[method].set(endpoint, new Response(callback()));
     } catch (TypeError) {
