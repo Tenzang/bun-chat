@@ -1,15 +1,15 @@
 import { file } from "bun";
 
+export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
 type Endpoints = Map<string, () => any>;
 
-export type Method = keyof Routes;
+type Routes = {
+  [key in Method]: Endpoints;
+};
 
-interface Routes {
-  GET: Endpoints;
-  POST: Endpoints;
-  PUT: Endpoints;
-  PATCH: Endpoints;
-  DELETE: Endpoints;
+export interface TypedRequest extends Request {
+  method: Method;
 }
 
 export class Router {
@@ -40,7 +40,7 @@ export class Router {
     this.#notFound = new Response(errorCallback(), { status: 404 });
   }
 
-  response({ method, url }: Request) {
+  response({ method, url }: TypedRequest) {
     const { pathname } = new URL(url);
     const [, ext] = pathname.split("/").pop().split(".");
 
@@ -57,6 +57,7 @@ export class Router {
 
     if (registeredPaths.has(pathname)) {
       const body = registeredPaths.get(pathname)();
+
       return new Response(body);
     }
 

@@ -1,20 +1,22 @@
-import { Router } from './Router/Router';
+import { Router, TypedRequest } from "./Router/Router";
 
-console.log('Starting server...')
+console.log("Starting server...");
 
 const port = 3000;
 const router = new Router();
 
+router.static("./public");
+
+router.route("GET", "/", () => {
+  return "index reached";
+});
+
+router.route("GET", "/ayyy", async () => "ayyy");
+
+router.notFound = () => "404, not found";
+
 export default {
-  fetch(req: Request) {
-    router.route('GET', '/', () => {
-      return 'index reached'
-    });
-
-    router.notFound = () => "404, not found";
-
-    return router.response(req);
-  },
+  fetch: (req: TypedRequest) => router.response(req),
   port,
 };
 
