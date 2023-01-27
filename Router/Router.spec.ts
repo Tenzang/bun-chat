@@ -28,18 +28,15 @@ describe("Router", () => {
       }).toThrow();
     });
 
-    const mockResponse = new Response("test");
-
     const methods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as Method[];
 
     methods.forEach((method) => {
       it(`prepares new ${method} endpoint.`, () => {
         router.route(method, endpoints.index, () => "test");
 
-        const response = router.routes[method].get(endpoints.index);
+        const resCallback = router.routes[method].get(endpoints.index);
 
-        expect(typeof response).toBe("object");
-        expect(JSON.stringify(response)).toBe(JSON.stringify(mockResponse));
+        expect(typeof resCallback).toBe("function");
       });
     });
   });
