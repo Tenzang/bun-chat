@@ -1,6 +1,6 @@
 import { file } from "bun";
 
-type Endpoints = Map<string, Response>;
+type Endpoints = Map<string, () => any>;
 
 export type Method = keyof Routes;
 
@@ -30,7 +30,7 @@ export class Router {
 
   route(method: Method, endpoint: string, callback: () => any) {
     try {
-      this.routes[method].set(endpoint, new Response(callback()));
+      this.routes[method].set(endpoint, callback);
     } catch (TypeError) {
       throw `Invalid method, "${method}"`;
     }
@@ -42,7 +42,7 @@ export class Router {
 
   response({ method, url }: Request) {
     const { pathname } = new URL(url);
-    const [fileName, ext] = pathname.split("/").pop().split(".");
+    const [, ext] = pathname.split("/").pop().split(".");
 
     if (ext && Router.#staticExt.has(ext)) {
       const resource = file(`${this.#static}${pathname}`);
@@ -55,7 +55,10 @@ export class Router {
 
     const registeredPaths = this.routes[method];
 
-    if (registeredPaths.has(pathname)) return registeredPaths.get(pathname);
+    if (registeredPaths.has(pathname)) {
+      const body = registeredPaths.get(pathname)();
+      return new Response(body);
+    }
 
     return this.#notFound;
   }
