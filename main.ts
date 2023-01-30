@@ -1,4 +1,4 @@
-import { Router, TypedRequest } from "./Router/Router";
+import { Router } from "./Router/Router";
 
 console.log("Starting server...");
 
