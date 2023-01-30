@@ -15,8 +15,6 @@ export class Router {
       PATCH: new Map(),
       DELETE: new Map(),
     };
-
-    this.response = this.response.bind(this);
   }
 
   route(method: Method, endpoint: string, callback: () => any) {
