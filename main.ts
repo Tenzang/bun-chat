@@ -13,7 +13,7 @@ router.route("GET", "/", () => {
 
 router.route("GET", "/ayyy", async () => "ayyy");
 
-router.notFound = () => "404, not found";
+router.notFound(() => "404, not found");
 
 export default {
   fetch: router.response,

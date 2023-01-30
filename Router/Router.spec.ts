@@ -79,6 +79,6 @@ describe("Router", () => {
 });
 
 function configureDefaults(router: Router) {
-  router.notFound = () => "not found";
+  router.notFound(() => "not found");
   router.static("./Router/public_test");
 }

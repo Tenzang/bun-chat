@@ -38,7 +38,7 @@ export class Router {
     }
   }
 
-  set notFound(errorCallback: () => BodyInit) {
+  notFound(errorCallback: () => BodyInit) {
     this.#notFound = new Response(errorCallback(), { status: 404 });
   }
 
