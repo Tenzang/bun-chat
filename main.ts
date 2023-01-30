@@ -1,8 +1,20 @@
-import {Router} from "@kapsonfire/bun-bakery"
+import { Router } from "./Router/Router";
 
+console.log("Starting server...");
 
-new Router({
-    port: 3000,
-    assetsPath: import.meta.dir + '/assets/',
-    routesPath: import.meta.dir + '/routes/'
-})
+const port = 3000;
+const router = new Router();
+
+router.static("./public");
+router.notFound(() => "404, not found");
+
+router.route("GET", "/", () => {
+  return "index reached";
+});
+
+export default {
+  fetch: router.response,
+  port,
+};
+
+console.log(`server is live at: http://localhost:${port}`);

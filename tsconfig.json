@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ES2015",
     "types": ["bun-types"],
     "module": "esnext",
     "moduleResolution": "Node"
