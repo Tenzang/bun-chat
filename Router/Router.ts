@@ -15,6 +15,8 @@ export class Router {
       PATCH: new Map(),
       DELETE: new Map(),
     };
+
+    this.response = this.response.bind(this);
   }
 
   route(method: Method, endpoint: string, callback: () => any) {
@@ -30,6 +32,7 @@ export class Router {
   }
 
   async response({ method, url }: TypedRequest) {
+    console.log(this.routes);
     const { pathname } = new URL(url);
     const [, ext] = pathname.split("/").pop().split(".");
 
