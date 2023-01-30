@@ -51,21 +51,19 @@ describe("Router", () => {
     });
 
     beforeEach(() => {
-      router.static("./public_test");
+      configureDefaults(router);
     });
 
     it("responds 404 if resource not present", async () => {
       const res = await router.response(
         new Request(baseURL + endpoints.fail) as TypedRequest
       );
-
-      expect(typeof res).toBe("object");
       expect(res.status).toBe(404);
     });
 
     describe("responds 200 if present with", () => {
       beforeEach(() => {
-        router.static("./public_test");
+        configureDefaults(router);
       });
 
       "js html".split(" ").forEach((ext) => {
@@ -73,11 +71,14 @@ describe("Router", () => {
           const res = await router.response(
             new Request(`${baseURL}${endpoints.success}${ext}`) as TypedRequest
           );
-
-          expect(typeof res).toBe("object");
           expect(res.status).toBe(200);
         });
       });
     });
   });
 });
+
+function configureDefaults(router: Router) {
+  router.notFound = () => "not found";
+  router.static("./Router/public_test");
+}

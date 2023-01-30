@@ -47,12 +47,9 @@ export class Router {
     const [, ext] = pathname.split("/").pop().split(".");
 
     if (ext && Router.#staticExt.has(ext)) {
-      const resource = file(`${this.#static}${pathname}`);
-
-      // TODO: properly check if file exists before serving
-      if (resource) return new Response(resource);
-
-      return new Response("Resource not found", { status: 404 });
+      const filePath = `${this.#static}${pathname}`;
+      const resource = file(filePath);
+      if (resource.size) return new Response(await resource);
     }
 
     const registeredPaths = this.routes[method];
