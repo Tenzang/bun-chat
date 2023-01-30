@@ -32,7 +32,6 @@ export class Router {
   }
 
   async response({ method, url }: TypedRequest) {
-    console.log(this.routes);
     const { pathname } = new URL(url);
     const [, ext] = pathname.split("/").pop().split(".");
 
@@ -46,8 +45,7 @@ export class Router {
 
     if (registeredPaths.has(pathname)) {
       const body = await registeredPaths.get(pathname)();
-
-      return new Response(body);
+      return new Response(body, { headers: { "Content-Type": "text/html" } });
     }
 
     return this.#notFound;

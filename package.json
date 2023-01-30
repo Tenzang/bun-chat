@@ -5,5 +5,5 @@
     "start": "bun main.ts",
     "test": "bun wiptest"
   },
-  "dependencies": {}
+  "dependencies": { "ejs": "^3.1.8" }
 }
