@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, beforeAll } from "bun:test";
+import { describe, expect, it, beforeEach } from "bun:test";
 import { Router, Method, TypedRequest } from "./Router";
 
 const baseURL = "http://test.com/";
@@ -34,9 +34,7 @@ describe("Router", () => {
     methods.forEach((method) => {
       it(`prepares new ${method} endpoint.`, () => {
         router.route(method, endpoints.index, () => "test");
-
         const resCallback = router.routes[method].get(endpoints.index);
-
         expect(typeof resCallback).toBe("function");
       });
     });
