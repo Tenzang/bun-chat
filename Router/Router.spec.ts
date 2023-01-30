@@ -14,6 +14,7 @@ describe("Router", () => {
 
   beforeEach(() => {
     router = new Router();
+    configureDefaults(router);
   });
 
   it("exists.", () => {
@@ -42,16 +43,8 @@ describe("Router", () => {
   });
 
   describe(".static()", () => {
-    beforeAll(() => {
-      router = new Router();
-    });
-
     it("is defined", () => {
       expect(router.static).toBeDefined();
-    });
-
-    beforeEach(() => {
-      configureDefaults(router);
     });
 
     it("responds 404 if resource not present", async () => {
@@ -62,10 +55,6 @@ describe("Router", () => {
     });
 
     describe("responds 200 if present with", () => {
-      beforeEach(() => {
-        configureDefaults(router);
-      });
-
       "js html".split(" ").forEach((ext) => {
         it(`${ext} extension.`, async () => {
           const res = await router.response(
