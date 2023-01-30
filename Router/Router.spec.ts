@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from "bun:test";
-import { Router, Method, TypedRequest } from "./Router";
+import { Router } from "./Router";
+import { Method, TypedRequest } from "./types";
 
 const baseURL = "http://test.com/";
 

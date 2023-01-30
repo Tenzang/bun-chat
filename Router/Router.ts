@@ -1,16 +1,5 @@
 import { file } from "bun";
-
-export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-type Endpoints = Map<string, () => any>;
-
-type Routes = {
-  [key in Method]: Endpoints;
-};
-
-export interface TypedRequest extends Request {
-  method: Method;
-}
+import { Method, Routes, TypedRequest } from "./types";
 
 export class Router {
   routes: Routes;
