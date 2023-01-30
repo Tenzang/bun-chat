@@ -16,7 +16,7 @@ router.route("GET", "/ayyy", async () => "ayyy");
 router.notFound = () => "404, not found";
 
 export default {
-  fetch: (req: TypedRequest) => router.response(req),
+  fetch: router.response,
   port,
 };
 

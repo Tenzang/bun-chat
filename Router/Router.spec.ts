@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, beforeAll } from "bun:test";
-import { Router, Method } from "./Router";
+import { Router, Method, TypedRequest } from "./Router";
 
 const baseURL = "http://test.com/";
 
@@ -54,8 +54,10 @@ describe("Router", () => {
       router.static("./public_test");
     });
 
-    it("responds 404 if resource not present", () => {
-      const res = router.response(new Request(baseURL + endpoints.fail));
+    it("responds 404 if resource not present", async () => {
+      const res = await router.response(
+        new Request(baseURL + endpoints.fail) as TypedRequest
+      );
 
       expect(typeof res).toBe("object");
       expect(res.status).toBe(404);
@@ -67,9 +69,9 @@ describe("Router", () => {
       });
 
       "js html".split(" ").forEach((ext) => {
-        it(`${ext} extension.`, () => {
-          const res = router.response(
-            new Request(`${baseURL}${endpoints.success}${ext}`)
+        it(`${ext} extension.`, async () => {
+          const res = await router.response(
+            new Request(`${baseURL}${endpoints.success}${ext}`) as TypedRequest
           );
 
           expect(typeof res).toBe("object");

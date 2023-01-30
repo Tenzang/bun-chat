@@ -26,6 +26,8 @@ export class Router {
       PATCH: new Map(),
       DELETE: new Map(),
     };
+
+    this.response = this.response.bind(this);
   }
 
   route(method: Method, endpoint: string, callback: () => any) {
@@ -40,7 +42,7 @@ export class Router {
     this.#notFound = new Response(errorCallback(), { status: 404 });
   }
 
-  response({ method, url }: TypedRequest) {
+  async response({ method, url }: TypedRequest) {
     const { pathname } = new URL(url);
     const [, ext] = pathname.split("/").pop().split(".");
 
@@ -56,7 +58,7 @@ export class Router {
     const registeredPaths = this.routes[method];
 
     if (registeredPaths.has(pathname)) {
-      const body = registeredPaths.get(pathname)();
+      const body = await registeredPaths.get(pathname)();
 
       return new Response(body);
     }
