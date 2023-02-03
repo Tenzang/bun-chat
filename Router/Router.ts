@@ -15,11 +15,14 @@ export class Router {
       PATCH: new Map(),
       DELETE: new Map(),
     };
+
+    this.fetch = this.fetch.bind(this);
   }
 
   route(method: Method, endpoint: string, callback: () => any) {
     try {
       this.routes[method].set(endpoint, callback);
+      return this;
     } catch (TypeError) {
       throw `Invalid method, "${method}"`;
     }
@@ -27,9 +30,10 @@ export class Router {
 
   notFound(errorCallback: () => BodyInit) {
     this.#notFound = new Response(errorCallback(), { status: 404 });
+    return this;
   }
 
-  async response({ method, url }: TypedRequest) {
+  async fetch({ method, url }: TypedRequest) {
     const { pathname } = new URL(url);
     const [, ext] = pathname.split("/").pop().split(".");
 
@@ -52,5 +56,6 @@ export class Router {
 
   static(dirPath: string) {
     this.#static = dirPath;
+    return this;
   }
 }

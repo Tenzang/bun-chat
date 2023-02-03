@@ -14,8 +14,7 @@ describe("Router", () => {
   let router: Router;
 
   beforeEach(() => {
-    router = new Router();
-    configureDefaults(router);
+    router = createRouter();
   });
 
   it("exists.", () => {
@@ -23,6 +22,8 @@ describe("Router", () => {
   });
 
   describe(".route()", () => {
+    testForDecorator(new Router().route, "GET", "/");
+
     it("throws error if invalid HTTP method provided.", () => {
       expect(() => {
         // @ts-ignore
@@ -42,12 +43,14 @@ describe("Router", () => {
   });
 
   describe(".static()", () => {
+    testForDecorator(new Router().static);
+
     it("is defined", () => {
       expect(router.static).toBeDefined();
     });
 
     it("responds 404 if resource not present", async () => {
-      const res = await router.response(
+      const res = await router.fetch(
         new Request(baseURL + endpoints.fail) as TypedRequest
       );
       expect(res.status).toBe(404);
@@ -56,7 +59,7 @@ describe("Router", () => {
     describe("responds 200 if present with", () => {
       "js html".split(" ").forEach((ext) => {
         it(`${ext} extension.`, async () => {
-          const res = await router.response(
+          const res = await router.fetch(
             new Request(`${baseURL}${endpoints.success}${ext}`) as TypedRequest
           );
           expect(res.status).toBe(200);
@@ -66,7 +69,16 @@ describe("Router", () => {
   });
 });
 
-function configureDefaults(router: Router) {
-  router.notFound(() => "not found");
-  router.static("./Router/public_test");
+function testForDecorator(method: Function, ...args: any) {
+  it("returns a Router object instance", () => {
+    expect(getStringyProperties(method.apply(new Router(), args))).toBe(
+      getStringyProperties(new Router())
+    );
+  });
 }
+
+const getStringyProperties = (object: Object) =>
+  JSON.stringify(Object.getOwnPropertyNames(object));
+
+const createRouter = () =>
+  new Router().notFound(() => "not found").static("./Router/public_test");

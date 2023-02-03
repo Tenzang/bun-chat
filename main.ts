@@ -3,17 +3,15 @@ import { Router } from "./Router/Router";
 console.log("Starting server...");
 
 const port = 3000;
-const router = new Router();
-
-router.static("./public");
-router.notFound(() => "404, not found");
-
-router.route("GET", "/", () => {
-  return "index reached";
-});
+const { fetch } = new Router()
+  .static("./public")
+  .notFound(() => "404, not found")
+  .route("GET", "/", () => {
+    return "index reached";
+  });
 
 export default {
-  fetch: router.response,
+  fetch,
   port,
 };
 
