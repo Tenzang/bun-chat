@@ -19,7 +19,7 @@ export class Router {
     this.fetch = this.fetch.bind(this);
   }
 
-  route(method: Method, endpoint: string, callback: () => any): Router {
+  route(method: Method, endpoint: string, callback: () => any) {
     try {
       this.routes[method].set(endpoint, callback);
       return this;
@@ -28,7 +28,7 @@ export class Router {
     }
   }
 
-  notFound(errorCallback: () => BodyInit): Router {
+  notFound(errorCallback: () => BodyInit) {
     this.#notFound = new Response(errorCallback(), { status: 404 });
     return this;
   }
@@ -54,7 +54,7 @@ export class Router {
     return this.#notFound;
   }
 
-  static(dirPath: string): Router {
+  static(dirPath: string) {
     this.#static = dirPath;
     return this;
   }
