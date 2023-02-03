@@ -3,7 +3,7 @@ import { Router } from "./Router/Router";
 console.log("Starting server...");
 
 const port = 3000;
-const { response } = new Router()
+const { fetch } = new Router()
   .static("./public")
   .notFound(() => "404, not found")
   .route("GET", "/", () => {
@@ -11,7 +11,7 @@ const { response } = new Router()
   });
 
 export default {
-  fetch: response,
+  fetch,
   port,
 };
 

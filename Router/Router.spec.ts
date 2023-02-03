@@ -50,7 +50,7 @@ describe("Router", () => {
     });
 
     it("responds 404 if resource not present", async () => {
-      const res = await router.response(
+      const res = await router.fetch(
         new Request(baseURL + endpoints.fail) as TypedRequest
       );
       expect(res.status).toBe(404);
@@ -59,7 +59,7 @@ describe("Router", () => {
     describe("responds 200 if present with", () => {
       "js html".split(" ").forEach((ext) => {
         it(`${ext} extension.`, async () => {
-          const res = await router.response(
+          const res = await router.fetch(
             new Request(`${baseURL}${endpoints.success}${ext}`) as TypedRequest
           );
           expect(res.status).toBe(200);
