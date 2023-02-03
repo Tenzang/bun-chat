@@ -15,18 +15,22 @@ export class Router {
       PATCH: new Map(),
       DELETE: new Map(),
     };
+
+    this.response = this.response.bind(this);
   }
 
-  route(method: Method, endpoint: string, callback: () => any) {
+  route(method: Method, endpoint: string, callback: () => any): Router {
     try {
       this.routes[method].set(endpoint, callback);
+      return this;
     } catch (TypeError) {
       throw `Invalid method, "${method}"`;
     }
   }
 
-  notFound(errorCallback: () => BodyInit) {
+  notFound(errorCallback: () => BodyInit): Router {
     this.#notFound = new Response(errorCallback(), { status: 404 });
+    return this;
   }
 
   async response({ method, url }: TypedRequest) {
@@ -50,7 +54,8 @@ export class Router {
     return this.#notFound;
   }
 
-  static(dirPath: string) {
+  static(dirPath: string): Router {
     this.#static = dirPath;
+    return this;
   }
 }
