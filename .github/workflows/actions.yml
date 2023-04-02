@@ -19,8 +19,18 @@ jobs:
           bun-version: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
+      - name: Install Server Dependencies
+        working-directory: ./server
+        run: bun install
+          
+      - name: Testing Server
+        working-directory: ./server
+        run: bun test
+            
+      - name: Install Client dependencies
+        working-directory: ./client
         run: bun install
 
-      - name: Run tests
+      - name: Testing Client
+        working-directory: ./client
         run: bun test
