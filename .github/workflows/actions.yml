@@ -25,7 +25,7 @@ jobs:
           
       - name: Testing Server
         working-directory: ./server
-        run: bun test
+        run: bun run test
             
       - name: Install Client dependencies
         working-directory: ./client
@@ -33,4 +33,4 @@ jobs:
 
       - name: Testing Client
         working-directory: ./client
-        run: bun test
+        run: bun run test
