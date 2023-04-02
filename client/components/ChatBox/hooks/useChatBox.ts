@@ -9,20 +9,24 @@ interface Message {
 export function useChatBox() {
 	const [messages, setMessages] = useState<Message[]>(null);
 	const [ws, setWs] = useState<WebSocket>(null);
+	const [name, setName] = useState<string>(null);
 
 	const sendMessage = useCallback(
-		(author: string, content: string) => {
-			ws.send(JSON.stringify({ author, content }));
+		(content: string) => {
+			ws.send(JSON.stringify({ content }));
 		},
 		[ws]
 	);
 
 	useEffect(() => {
-		const handleIncomingMessage = (e: MessageEvent<any>) => {
-			setMessages(JSON.parse(e.data));
+		const handleIncomingMessage = ({ data }: MessageEvent<any>) => {
+			const payload = JSON.parse(data);
+			setMessages(payload.messages);
+			if (payload.author) setName(payload.author); // TODO: separate into "message" & "open" event handlers
 		};
 
 		const ws = new WebSocket("ws://localhost:3000/ws");
+
 		ws.addEventListener("message", handleIncomingMessage);
 		setWs(ws);
 
@@ -32,5 +36,5 @@ export function useChatBox() {
 		};
 	}, []);
 
-	return { messages, sendMessage };
+	return { name, messages, sendMessage };
 }

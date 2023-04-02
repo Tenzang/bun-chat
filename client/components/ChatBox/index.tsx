@@ -1,10 +1,12 @@
 import { useCallback, useState } from "react";
 import { useChatBox } from "./hooks/useChatBox";
 
+import styles from "./ChatBox.module.css";
+
 export default () => {
 	const [inputMessage, setInputMessage] = useState("");
 
-	const { messages, sendMessage } = useChatBox();
+	const { name, messages, sendMessage } = useChatBox();
 
 	const handleInput = useCallback((e) => {
 		setInputMessage(e.target.value);
@@ -12,7 +14,7 @@ export default () => {
 
 	const handleSend = useCallback(
 		(e) => {
-			sendMessage("Loden", inputMessage);
+			sendMessage(inputMessage);
 			setInputMessage("");
 		},
 		[inputMessage]
@@ -23,7 +25,7 @@ export default () => {
 			<div>
 				{messages
 					? messages.map(({ id, author, content }) => (
-							<div key={id}>
+							<div key={id} className={name === author ? styles.fancy : ""}>
 								<p>{author}</p>
 								<p>{content}</p>
 							</div>
