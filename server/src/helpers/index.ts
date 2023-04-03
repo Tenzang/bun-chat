@@ -1,4 +1,3 @@
-import generateID from "./generateID";
-import addMessage from "./addMessage";
+import nameGenerator from "./nameGenerator";
 
-export { generateID, addMessage };
+export { nameGenerator };

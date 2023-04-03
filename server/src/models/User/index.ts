@@ -1,14 +1,12 @@
-import { nameGenerator } from "../../helpers/nameGenerator";
-import IdHandler from "../IdHandler";
+import { nameGenerator } from "../../helpers";
+import { WSType } from "../types";
 
 export default class User {
-	static #idHandler = new IdHandler();
-
-	id: number;
 	name: string;
+	ws: WSType;
 
-	constructor() {
-		this.id = User.#idHandler.generateId();
+	constructor(ws: WSType) {
 		this.name = nameGenerator();
+		this.ws = ws;
 	}
 }
