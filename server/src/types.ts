@@ -1,10 +1,4 @@
-export interface Message {
-	id: number;
-	author: string;
-	content: string;
-}
-
-export interface Users {
+export interface UserHash {
 	[key: string]: {
 		name: string;
 		ws: any;

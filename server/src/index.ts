@@ -1,47 +1,40 @@
 import { Elysia, ws } from "elysia";
-import { Message, Users } from "./types";
-import { messages } from "./mockData";
-import { addMessage } from "./helpers";
-import { nameGenerator } from "./helpers/nameGenerator";
+import Message from "./models/Message";
+import User from "./models/User";
+import Room from "./models/Room";
 
-const connectedUsers: Users = {};
-
-// generate random name for each websocket
+const room = new Room();
 
 const app = new Elysia()
 	.use(ws())
 	.ws("/ws", {
-		message(ws, message) {
+		message(ws, data) {
 			const { id } = ws.data;
-			addMessage(
-				connectedUsers[id].name,
-				messages,
-				message as Omit<Message, "id" | "author">
-			);
 
-			Object.values(connectedUsers).forEach((user) =>
-				user.ws.send({ messages })
-			);
+			const author = room.users.find((user) => user.ws.data.id === id) as User;
+
+			type messageData = { content: string };
+			const message = new Message(author.name, (data as messageData).content);
+			room.addMessage(message);
+
+			room.users.forEach((user) => user.ws.send({ messages: room.messages }));
 		},
 		open(ws) {
 			console.log("WEBSOCKET OPENED", ws.data.id);
-			const user = {
-				name: nameGenerator(),
-				ws,
-			};
-			connectedUsers[ws.data.id] = user;
+			const user = new User(ws);
+			room.addUser(user);
 
 			ws.send({
 				author: user.name,
-				messages,
+				messages: room.messages,
 			});
 		},
 		close(ws) {
 			console.log("WEBSOCKET closed", ws.data.id);
-			delete connectedUsers[ws.data.id];
+			room.removeUser(ws.data.id);
 		},
 	})
-	.get("/", () => "Hello Elysia")
+	.get("/", () => "Server is running 👌")
 	.listen(3000);
 
 export type Server = typeof app;
