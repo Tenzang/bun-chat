@@ -6,8 +6,6 @@ import { nameGenerator } from "./helpers/nameGenerator";
 
 const connectedUsers: Users = {};
 
-// generate random name for each websocket
-
 const app = new Elysia()
 	.use(ws())
 	.ws("/ws", {
