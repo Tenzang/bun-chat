@@ -19,34 +19,16 @@ jobs:
           bun-version: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-  server:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./server
-    steps:
-      - name: Github checkout
-        uses: actions/checkout@v2
+      - name: Server/Client
+        strategy:
+          matrix:
+            directory: [./server, ./client]
+        defaults:
+          run:
+            working-directory: ${{ matrix.directory }}
+        steps:
+          - name: Install dependencies
+            run: bun install
 
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run tests
-        run: bun run test
-
-  client:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
-    steps:
-      - name: Github checkout
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run tests
-        run: bun run test
+          - name: Run tests
+            run: bun run test
