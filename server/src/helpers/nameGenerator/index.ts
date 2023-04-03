@@ -6,7 +6,6 @@ export function nameGenerator() {
 	const adjective = capitalize(sample(adjectives));
 	const noun = capitalize(sample(nouns));
 	const name = `${adjective} ${noun}`;
-	console.log("NAME GENERATED:", name);
 	return name;
 }
 
