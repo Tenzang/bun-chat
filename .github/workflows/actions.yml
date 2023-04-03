@@ -23,7 +23,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     defaults:
-      working-directory: ./server
+      run:
+        working-directory: ./server
     steps:
       - name: Github checkout
         uses: actions/checkout@v2
@@ -38,7 +39,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     defaults:
-      working-directory: ./client
+      run:
+        working-directory: ./client
     steps:
       - name: Github checkout
         uses: actions/checkout@v2
