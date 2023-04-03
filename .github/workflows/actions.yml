@@ -2,9 +2,9 @@ name: Bun CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -22,14 +22,16 @@ jobs:
       - name: Install Server Dependencies
         working-directory: ./server
         run: bun install
-            
+
       - name: Install Client dependencies
         working-directory: ./client
         run: bun install
 
   server:
-    needs: build 
-    working-directory: ./server
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      working-directory: ./server
     steps:
       - name: Install dependencies
         run: bun install
@@ -38,12 +40,13 @@ jobs:
         run: bun run test
 
   client:
-    needs: build 
-    working-directory: ./client
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      working-directory: ./client
     steps:
       - name: Install dependencies
         run: bun install
 
       - name: Run tests
         run: bun run test
-
