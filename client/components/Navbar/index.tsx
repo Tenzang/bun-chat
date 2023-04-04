@@ -1,16 +1,25 @@
-import styles from "./Navbar.module.scss";
+import Link from "next/link";
 
 export default () => {
-	console.log(styles);
+	const urls = [
+		{
+			title: "Home",
+			href: "/",
+		},
+		{
+			title: "Choose a Room",
+			href: "/rooms",
+		},
+	];
+
 	return (
-		<nav className={styles.navbar}>
-			<ul>
-				<li>
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="/rooms">Choose a Room</a>
-				</li>
+		<nav>
+			<ul className="flex gap-x-10 pl-5 text-xl">
+				{urls.map(({ title, href }, i) => (
+					<li className="" key={i}>
+						<Link href={href}>{title}</Link>
+					</li>
+				))}
 			</ul>
 		</nav>
 	);
