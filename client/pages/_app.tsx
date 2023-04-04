@@ -1,5 +1,7 @@
 import Head from "next/head";
 import "../styles/globals.css";
+import styles from "../styles/Home.module.css";
+import Navbar from "components/Navbar";
 
 function MyApp({ Component, pageProps }) {
 	return (
@@ -12,7 +14,13 @@ function MyApp({ Component, pageProps }) {
 				/>
 				<link rel="icon" href="/favicon.png" />
 			</Head>
-			<Component {...pageProps} />
+			<div className={styles.container}>
+				<main className={styles.main}>
+					<h1>Bun Chat</h1>
+					<Navbar />
+					<Component {...pageProps} />
+				</main>
+			</div>
 		</>
 	);
 }
