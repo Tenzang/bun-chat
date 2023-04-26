@@ -4,6 +4,7 @@ import Message from "./models/Message";
 import User from "./models/User";
 import RoomHash from "./models/RoomHash";
 import Room from "./models/Room";
+import { roomIndexSchema } from "./schemas";
 
 const room = new Room();
 const roomHash = new RoomHash();
@@ -39,7 +40,11 @@ const app = new Elysia()
 			room.removeUser(ws.data.id);
 		},
 	})
-	.get("/room", () => roomHash.rooms())
+	.get(
+		"/room",
+		() => new Response(JSON.stringify(roomHash.rooms())),
+		roomIndexSchema
+	)
 	.get("/", () => "Server is running 👌")
 	.listen(3000);
 
