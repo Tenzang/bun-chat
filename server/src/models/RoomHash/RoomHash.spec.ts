@@ -28,4 +28,15 @@ describe("RoomHash", () => {
 			expect(output).toBe(roomHash);
 		});
 	});
+
+	describe(".rooms()", () => {
+		it("returns array of rooms in hash", () => {
+			const room = new Room();
+			roomHash.add(room);
+
+			const rooms = roomHash.rooms();
+
+			expect(rooms).toContain(room);
+		});
+	});
 });
