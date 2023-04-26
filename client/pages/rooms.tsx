@@ -11,7 +11,7 @@ export default () => {
 			console.log(rooms);
 			setRooms(rooms);
 		});
-	});
+	}, []);
 
 	return (
 		<div>
