@@ -1,9 +1,12 @@
-import { Elysia, ws } from "elysia";
+import { Elysia, ws, t } from "elysia";
 import Message from "./models/Message";
 import User from "./models/User";
+import RoomHash from "./models/RoomHash";
 import Room from "./models/Room";
 
 const room = new Room();
+const roomHash = new RoomHash();
+roomHash.add(room);
 
 const app = new Elysia()
 	.use(ws())
@@ -34,6 +37,7 @@ const app = new Elysia()
 			room.removeUser(ws.data.id);
 		},
 	})
+	.get("/room", () => roomHash.rooms())
 	.get("/", () => "Server is running 👌")
 	.listen(3000);
 
