@@ -11,10 +11,6 @@ export default class RoomHash {
 	}
 
 	rooms() {
-		return Object.values(this.hash).map((room) => ({
-			id: room.id,
-			name: room.name,
-			userCount: room.users.length,
-		}));
+		return Object.values(this.hash);
 	}
 }
