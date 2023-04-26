@@ -1,4 +1,5 @@
-import { Elysia, ws, t } from "elysia";
+import { Elysia, ws } from "elysia";
+import swagger from "@elysiajs/swagger";
 import Message from "./models/Message";
 import User from "./models/User";
 import RoomHash from "./models/RoomHash";
@@ -9,6 +10,7 @@ const roomHash = new RoomHash();
 roomHash.add(room);
 
 const app = new Elysia()
+	.use(swagger())
 	.use(ws())
 	.ws("/ws", {
 		message(ws, data) {
