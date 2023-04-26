@@ -40,11 +40,7 @@ const app = new Elysia()
 			room.removeUser(ws.data.id);
 		},
 	})
-	.get(
-		"/room",
-		() => new Response(JSON.stringify(roomHash.rooms())),
-		roomIndexSchema
-	)
+	.get("/room", () => roomHash.rooms(), roomIndexSchema)
 	.get("/", () => "Server is running 👌")
 	.listen(3000);
 

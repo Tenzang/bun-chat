@@ -4,7 +4,7 @@ export const roomIndexSchema = {
 	schema: {
 		response: t.Array(
 			t.Object({
-				id: t.String(),
+				id: t.Number(),
 				name: t.String(),
 				userCount: t.Number(),
 			})
