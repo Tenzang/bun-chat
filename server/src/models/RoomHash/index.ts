@@ -9,4 +9,8 @@ export default class RoomHash {
 		this.hash[room.id] = room;
 		return this;
 	}
+
+	rooms() {
+		return Object.values(this.hash);
+	}
 }
