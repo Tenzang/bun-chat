@@ -5,12 +5,14 @@ import User from "./models/User";
 import RoomHash from "./models/RoomHash";
 import Room from "./models/Room";
 import { roomIndexSchema } from "./schemas";
+import cors from "@elysiajs/cors";
 
 const room = new Room();
 const roomHash = new RoomHash();
 roomHash.add(room);
 
 const app = new Elysia()
+	.use(cors())
 	.use(swagger())
 	.use(ws())
 	.ws("/ws", {
