@@ -1,41 +1,32 @@
 import { useCallback, useEffect, useState } from "react";
-
-interface Message {
-	id: string;
-	author: string;
-	content: string;
-}
+import API, { HandleMessage, Message } from "utils/API";
 
 export function useChatBox(roomId: string) {
-	// use roomId to fetch
-	const [messages, setMessages] = useState<Message[]>(null);
-	const [ws, setWs] = useState<WebSocket>(null);
-	const [name, setName] = useState<string>(null);
+  const [messages, setMessages] = useState<Message[]>(null);
+  const [ws, setWs] = useState<ReturnType<typeof API.joinRoom>>(null);
+  const [name, setName] = useState<string>(null);
 
-	const sendMessage = useCallback(
-		(content: string) => {
-			ws.send(JSON.stringify({ content }));
-		},
-		[ws]
-	);
+  const sendMessage = useCallback(
+    (content: string) => {
+      ws.send(content);
+    },
+    [ws]
+  );
 
-	useEffect(() => {
-		const handleIncomingMessage = ({ data }: MessageEvent<any>) => {
-			const payload = JSON.parse(data);
-			setMessages(payload.messages);
-			if (payload.author) setName(payload.author); // TODO: separate into "message" & "open" event handlers
-		};
+  useEffect(() => {
+    const handleMessage: HandleMessage = ({ data: { author, messages } }) => {
+      console.log(author);
+      setName(author);
+      setMessages(messages);
+    };
 
-		const ws = new WebSocket("ws://localhost:3000/ws"); // provide roomId as param to create connection in specific room
+    const ws = API.joinRoom(roomId, handleMessage);
+    setWs(ws);
 
-		ws.addEventListener("message", handleIncomingMessage);
-		setWs(ws);
+    return () => {
+      API.leaveRoom(ws, handleMessage);
+    };
+  }, []);
 
-		return () => {
-			ws.removeEventListener("message", handleIncomingMessage);
-			ws.close();
-		};
-	}, []);
-
-	return { name, messages, sendMessage };
+  return { name, messages, sendMessage };
 }

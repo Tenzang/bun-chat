@@ -18,7 +18,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "utils": ["./src/utils"]
+    },
     "incremental": true,
     "types": ["bun-types"]
   },
