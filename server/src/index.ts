@@ -29,7 +29,9 @@ const app = new Elysia()
 
       room.addMessage(message);
 
-      room.users.forEach((user) => user.ws.send({ messages: room.messages }));
+      room.users.forEach((user) =>
+        user.ws.send({ author: author.name, messages: room.messages })
+      );
     },
     open(ws) {
       const user = new User(ws);
