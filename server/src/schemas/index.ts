@@ -5,19 +5,19 @@ const userDTO = t.Object({
 });
 
 const roomMetaDTO = t.Object({
-	id: t.Number(),
+	id: t.String(),
 	name: t.String(),
 	userCount: t.Number(),
 });
 
 const messageDTO = t.Object({
-	id: t.Number(),
+	id: t.String(),
 	author: t.String(),
 	content: t.String(),
 });
 
 const roomDTO = t.Object({
-	id: t.Number(),
+	id: t.String(),
 	name: t.String(),
 	messages: t.Array(messageDTO),
 	users: t.Array(userDTO),
@@ -30,7 +30,7 @@ export const roomIndexSchema = {
 };
 
 const roomParamsDTO = t.Object({
-	id: t.Number({}),
+	id: t.String({}),
 });
 
 export const roomSchema = {

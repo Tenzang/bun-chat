@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 interface Message {
-	id: number;
+	id: string;
 	author: string;
 	content: string;
 }

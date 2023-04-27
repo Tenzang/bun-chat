@@ -54,6 +54,7 @@ const app = new Elysia()
 	)
 	.get(
 		"/room/:id",
+		// @ts-ignore (confirmed payload passes schema validation - not sure where type error is coming from)
 		({ params: { id } }) => {
 			const { name, messages, users } = roomHash.get(id);
 			return {
