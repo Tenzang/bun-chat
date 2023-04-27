@@ -4,7 +4,7 @@ import Message from "./models/Message";
 import User from "./models/User";
 import RoomHash from "./models/RoomHash";
 import Room from "./models/Room";
-import { roomIndexSchema } from "./schemas";
+import { roomSchema, roomIndexSchema } from "./schemas";
 import cors from "@elysiajs/cors";
 
 const room = new Room();
@@ -51,6 +51,19 @@ const app = new Elysia()
 				userCount: users.length,
 			})),
 		roomIndexSchema
+	)
+	.get(
+		"/room/:id",
+		({ params: { id } }) => {
+			const { name, messages, users } = roomHash.get(id);
+			return {
+				id,
+				name,
+				messages,
+				users: users.map(({ name }) => ({ name })),
+			};
+		},
+		roomSchema
 	)
 	.get("/", () => "Server is running 👌")
 	.listen(3000);
