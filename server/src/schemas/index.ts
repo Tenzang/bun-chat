@@ -30,7 +30,7 @@ export const roomIndexSchema = {
 };
 
 const roomParamsDTO = t.Object({
-	id: t.String({}),
+	id: t.String(),
 });
 
 export const roomSchema = {
