@@ -2,11 +2,12 @@ import { useCallback, useState } from "react";
 import { useChatBox } from "./hooks/useChatBox";
 
 import styles from "./ChatBox.module.css";
+import { ChatBoxProps } from "./types";
 
-export default () => {
+export default ({ roomId }: ChatBoxProps) => {
 	const [inputMessage, setInputMessage] = useState("");
 
-	const { name, messages, sendMessage } = useChatBox();
+	const { name, messages, sendMessage } = useChatBox(roomId);
 
 	const handleInput = useCallback((e) => {
 		setInputMessage(e.target.value);

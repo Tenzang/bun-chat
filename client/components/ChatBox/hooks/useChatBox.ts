@@ -6,7 +6,8 @@ interface Message {
 	content: string;
 }
 
-export function useChatBox() {
+export function useChatBox(roomId: string) {
+	// use roomId to fetch
 	const [messages, setMessages] = useState<Message[]>(null);
 	const [ws, setWs] = useState<WebSocket>(null);
 	const [name, setName] = useState<string>(null);
@@ -25,7 +26,7 @@ export function useChatBox() {
 			if (payload.author) setName(payload.author); // TODO: separate into "message" & "open" event handlers
 		};
 
-		const ws = new WebSocket("ws://localhost:3000/ws");
+		const ws = new WebSocket("ws://localhost:3000/ws"); // provide roomId as param to create connection in specific room
 
 		ws.addEventListener("message", handleIncomingMessage);
 		setWs(ws);
