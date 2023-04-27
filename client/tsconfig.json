@@ -19,7 +19,8 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {},
-    "incremental": true
+    "incremental": true,
+    "types": ["bun-types"]
   },
   "include": [
     "next-env.d.ts",
