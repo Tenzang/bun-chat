@@ -13,4 +13,10 @@ export default class RoomHash {
 	rooms() {
 		return Object.values(this.hash);
 	}
+
+	get(id: number) {
+		const room = this.hash[id];
+		if (!room) throw `Room #${id} not found.`;
+		return this.hash[id];
+	}
 }
