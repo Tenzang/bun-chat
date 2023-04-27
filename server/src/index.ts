@@ -1,11 +1,8 @@
 import { Elysia, ws } from "elysia";
 import swagger from "@elysiajs/swagger";
-import Message from "./models/Message";
-import User from "./models/User";
-import RoomHash from "./models/RoomHash";
-import Room from "./models/Room";
-import { roomSchema, roomIndexSchema } from "./schemas";
 import cors from "@elysiajs/cors";
+import { roomSchema, roomIndexSchema } from "./schemas";
+import { Message, Room, RoomHash, User } from "./models";
 
 const room = new Room();
 const roomHash = new RoomHash();
@@ -60,8 +57,8 @@ const app = new Elysia()
 			return {
 				id,
 				name,
-				messages,
-				users: users.map(({ name }) => ({ name })),
+				messages, // NOTE: remove messages from payload (they're already handled by websockets)
+				users: users.map(({ name }) => ({ name })), // NOTE: may want to move this to websockets
 			};
 		},
 		roomSchema
