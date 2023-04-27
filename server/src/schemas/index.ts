@@ -40,9 +40,7 @@ export const roomSchema = {
   },
 };
 
-export const wsBodyDTO = t.Object({
-  content: t.String(),
-});
+export const wsBodyDTO = t.String();
 
 export const wsParamsDTO = t.Object({
   roomId: t.String(),
