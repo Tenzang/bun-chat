@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import API from "../utils/API";
+import API from "../../utils/API";
+import Link from "next/link";
 
 type Rooms = Awaited<ReturnType<typeof API.getRooms>>;
 
@@ -16,7 +17,11 @@ export default () => {
 	return (
 		<div>
 			{rooms
-				? rooms.map((room) => <button key={room.id}>{room.name}</button>)
+				? rooms.map(({ id, name }) => (
+						<button key={id}>
+							<Link href={`/rooms/${id}`}>{name}</Link>
+						</button>
+				  ))
 				: "loading..."}
 		</div>
 	);
