@@ -39,4 +39,22 @@ describe("RoomHash", () => {
 			expect(rooms).toContain(room);
 		});
 	});
+
+	describe(".get()", () => {
+		it("retrieves room from hash by id", () => {
+			const room1 = new Room();
+			roomHash.add(room1);
+			const room2 = new Room();
+			roomHash.add(room2);
+
+			expect(roomHash.get(room1.id)).toBe(room1);
+			expect(roomHash.get(room2.id)).toBe(room2);
+		});
+
+		it("throws error if room not found", () => {
+			expect(() => {
+				roomHash.get(0);
+			}).toThrow();
+		});
+	});
 });
