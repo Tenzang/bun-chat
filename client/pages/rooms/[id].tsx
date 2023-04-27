@@ -7,5 +7,5 @@ export default () => {
 
 	useEffect(() => {});
 
-	return <ChatBox roomId={id} />;
+	return <ChatBox roomId={id as string} />;
 };
