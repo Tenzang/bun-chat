@@ -17,7 +17,7 @@ const app = new Elysia()
       body: wsBodyDTO,
       params: wsParamsDTO,
     },
-    message({ data }, { content }) {
+    message({ data }, content) {
       const { id, params } = data;
 
       const room = roomHash.get(params.roomId);
@@ -30,11 +30,6 @@ const app = new Elysia()
       room.addMessage(message);
 
       room.users.forEach((user) => user.ws.send({ messages: room.messages }));
-    },
-  })
-  .ws("/ws/:roomId", {
-    schema: {
-      params: wsParamsDTO,
     },
     open(ws) {
       const user = new User(ws);
