@@ -3,7 +3,7 @@ import IdHandler from "../IdHandler";
 export default class Message {
 	static #idHandler = new IdHandler();
 
-	id: number;
+	id: string;
 	author: string;
 	content: string;
 

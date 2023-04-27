@@ -5,12 +5,14 @@ import User from "../User";
 import { mockMessage } from "../mocks";
 import { WSType } from "../types";
 
+const nameStub = "test room";
+
 describe("Room", () => {
 	const mockWS = { data: { id: "mockID" } } as unknown as WSType;
 	let room: Room;
 
 	beforeEach(() => {
-		room = new Room();
+		room = new Room(nameStub);
 	});
 
 	it("exists", () => {
@@ -20,12 +22,23 @@ describe("Room", () => {
 	it("has unique id", () => {
 		expect(room.id).toBeDefined();
 
-		const room2 = new Room();
+		const room2 = new Room(nameStub);
 		expect(room.id).not.toEqual(room2.id);
 	});
 
 	it("contains Messages", () => {
 		expect(room.messages).toBeDefined();
+	});
+
+	describe("name field", () => {
+		it("is assigned by constructor", () => {
+			expect(room.name).toEqual(nameStub);
+		});
+
+		it('defaults to "Room #[roomId]"', () => {
+			const namelessRoom = new Room();
+			expect(namelessRoom.name).toBe(`Room #${namelessRoom.id}`);
+		});
 	});
 
 	describe(".addMessage()", () => {

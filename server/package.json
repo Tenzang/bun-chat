@@ -6,9 +6,10 @@
     "test": "bun wiptest"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/cors": "^0.3.0"
   },
   "devDependencies": {
+    "@elysiajs/swagger": "^0.4.0",
     "bun-types": "latest"
   },
   "module": "src/index.js"

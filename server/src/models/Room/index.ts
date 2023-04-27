@@ -5,12 +5,14 @@ import User from "../User";
 export default class Room {
 	static #idHandler = new IdHandler();
 
-	id: number;
+	id: string;
+	name: string;
 	messages: Message[] = [];
 	users: User[] = [];
 
-	constructor() {
+	constructor(name?: string) {
 		this.id = Room.#idHandler.generateId();
+		this.name = name || `Room #${this.id}`;
 	}
 
 	addMessage(message: Message) {
